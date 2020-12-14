@@ -1,4 +1,4 @@
-# NLP task similarity with Word2Vec and Gensim
+# NLP text similarity with Word2Vec and Gensim
 
 
 # Data for this NLP
