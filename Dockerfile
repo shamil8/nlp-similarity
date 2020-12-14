@@ -1,14 +1,9 @@
 FROM python:3.8
 
-RUN pip install --no-cache-dir gensim
+RUN pip install --no-cache-dir gensim nltk flask
 
-ENV PYRO_SERIALIZERS_ACCEPTED=pickle
-ENV PYRO_SERIALIZER=pickle
+COPY . /app
 
-ENV NS_HOST=9101
+WORKDIR /app
 
-COPY main.py /main.py
-
-EXPOSE 9100
-
-CMD python /main.py --ns-host $NS_HOST
+CMD python api.py

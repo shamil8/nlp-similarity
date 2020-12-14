@@ -1,0 +1,14 @@
+version: "3.8"
+
+services:
+  # Python container
+  py:
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+    image: intr_py
+    container_name: intr_py
+    ports:
+      - 5000:5000
+    volumes:
+      - ./:/app
