@@ -43,7 +43,7 @@ def get_similarity (text, is_append = False):
         elif not is_append:
             try:
                 result.remove(word)
-            except:
+            except ValueError:
                 print('if the value is not present')
 
 
