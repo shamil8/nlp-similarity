@@ -2,7 +2,7 @@ FROM python:3.8
 
 RUN pip install --no-cache-dir gensim nltk flask
 
-COPY . /app
+COPY .. /app
 
 WORKDIR /app
 

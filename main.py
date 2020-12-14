@@ -19,7 +19,7 @@ var = nltk.tagset_mapping('ru-rnc', 'universal') == {'!': '.', 'A': 'ADJ', 'C': 
 
 # END only once!
 
-def get_similarity (text):
+def get_similarity (text, is_append = False):
     words = nltk.word_tokenize(text)
 
     words_with_tag = []
@@ -36,8 +36,28 @@ def get_similarity (text):
         for word in words_with_tag:
             [result.append(text) for text in get_most_similar(word) if text not in result]
 
+    # the result append words from param
+    for word in words:
+        if is_append and word not in result:
+            result.append(word)
+        elif not is_append:
+            try:
+                result.remove(word)
+            except:
+                print('if the value is not present')
+
+
     return result
 
 
 def get_most_similar(text, pv = 0.5):
-    return [(word[0][0:word[0].find('_')]) for word in rnc_and_wiki_wv.most_similar(text) if word[1] >= pv]
+    words = []
+
+    try:
+        words = rnc_and_wiki_wv.most_similar(text)
+    except KeyError as e:
+        print('I got a KeyError - reason "%s"' % str(e))
+    except IndexError as e:
+        print('I got an IndexError - reason "%s"' % str(e))
+
+    return [(word[0][0:word[0].find('_')]) for word in words if word[1] >= pv]
