@@ -4,18 +4,19 @@ import nltk
 # only once!
 # Model with tags
 # Russian National Corpus and Russian Wikipedia dump of December 2018
-rnc_and_wiki_wv = KeyedVectors.load("./initiator-models/rnc-and-wiki.wordvectors")
+rnc_and_wiki_wv = KeyedVectors.load("/app/initiator_models/rnc_and_wiki.wordvectors")
 
 # Installing NLTK Data (https://www.nltk.org/data.html)
 nltk.download('punkt')
 nltk.download('universal_tagset')
 nltk.download('averaged_perceptron_tagger_ru')
-var = nltk.tagset_mapping('ru-rnc', 'universal') == {'!': '.', 'A': 'ADJ', 'C': 'CONJ', 'AD': 'ADV', 'NN': 'NOUN',
-                                                     'VG': 'VERB', 'COMP': 'CONJ', 'NC': 'NUM', 'VP': 'VERB',
-                                                     'P': 'ADP',
-                                                     'IJ': 'X', 'V': 'VERB', 'Z': 'X', 'VI': 'VERB',
-                                                     'YES_NO_SENT': 'X',
-                                                     'PTCL': 'PRT'}
+
+var = nltk.tagset_mapping('ru-rnc', 'universal') == {
+    '!': '.', 'A': 'ADJ', 'C': 'CONJ', 'AD': 'ADV', 'NN': 'NOUN',
+    'VG': 'VERB', 'COMP': 'CONJ', 'NC': 'NUM', 'VP': 'VERB',
+    'P': 'ADP', 'IJ': 'X', 'V': 'VERB', 'Z': 'X', 'VI': 'VERB',
+    'YES_NO_SENT': 'X', 'PTCL': 'PRT'
+}
 
 # END only once!
 
@@ -60,4 +61,12 @@ def get_most_similar(text, pv = 0.5):
     except IndexError as e:
         print('I got an IndexError - reason "%s"' % str(e))
 
-    return [(word[0][0:word[0].find('_')]) for word in words if word[1] >= pv]
+    # return unique words
+    result = []
+
+    for word, rating in words:
+        text = word[0:word.find('_')]
+        if rating >= pv and text not in result:
+            result.append(text)
+
+    return result

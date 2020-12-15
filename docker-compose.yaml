@@ -5,7 +5,7 @@ services:
   py:
     build:
       context: .
-      dockerfile: docker/Dockerfile
+      dockerfile: Dockerfile
     image: intr_py
     container_name: intr_py
     ports:

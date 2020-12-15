@@ -1,5 +1,5 @@
 /venv
 /data
 /__pycache__
-/initiator-models/rnc-and-wiki.wordvectors.vectors.npy
-/initiator-models/initiator-word2vec.model
+/initiator_models/rnc_and_wiki.wordvectors.vectors.npy
+/initiator_models/initiator_word2vec.model
