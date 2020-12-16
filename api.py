@@ -1,6 +1,6 @@
 from flask import Flask, request, jsonify
 from nlp_py.similarity import get_similarity
-from nlp_py.main import get_similarity_stat
+from nlp_py.main import get_similarity_tasks
 app = Flask(__name__)
 
 text_param_error = 'Bad request! (you need to add `text` param)'
@@ -28,8 +28,8 @@ def nlp_words():
 def nlp_computing():
     args = request.args
 
-    return jsonify(get_similarity_stat(args.get('text'))) if args and args.get('text') \
-        else text_param_error, param_error_code
+    return jsonify(get_similarity_tasks(args.get('text'))) if args and args.get('text') \
+        else (text_param_error, param_error_code)
 
 if __name__ == '__main__':
     app.run(debug=True, host='0.0.0.0')
