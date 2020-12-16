@@ -3,6 +3,7 @@
 /__pycache__
 /.ipynb_checkpoints
 /jupyter/__pycache__
+/nlp_py/__pycache__
 /jupyter/.ipynb_checkpoints
 /initiator_models/rnc_and_wiki.wordvectors.vectors.npy
 /initiator_models/initiator_word2vec.model

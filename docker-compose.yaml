@@ -11,4 +11,5 @@ services:
     ports:
       - 5000:5000
     volumes:
-      - ./:/app
+      - ./nlp_py/:/app/nlp_py
+      - ./api.py:/app/api.py

@@ -21,7 +21,7 @@ var = nltk.tagset_mapping('ru-rnc', 'universal') == {
 # END only once!
 
 def get_similarity (text, is_append = False):
-    words = nltk.word_tokenize(text)
+    words = nltk.word_tokenize(str(text).lower())
 
     words_with_tag = []
 

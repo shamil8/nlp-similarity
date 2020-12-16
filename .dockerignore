@@ -1,1 +1,11 @@
-/data
+/.git
+/.gitignore
+/.idea
+/.dockerignore
+/docker-compose.yaml
+/Dockerfile
+/README.md
+/jupyter
+
+/initiator_models/initiator_word2vec.model
+/initiator_models/initiator_word2vec.wordvectors
