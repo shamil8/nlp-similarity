@@ -43,13 +43,15 @@ def get_rating_tasks():
         for words in names:
             for idx, word in enumerate(str(words).split()):
                 if idx == 0 and word in txt and txt in main_words:
-                    rating += 10
+                    rating += 2000
                 elif word in txt:
                     rating += 1
 
         result.append([name, rating])
 
-    return result.sort(key=sort_second)
+    result.sort(key=sort_second)
+
+    return result
 
 
 def sort_second(val):
