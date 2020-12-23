@@ -1,17 +1,17 @@
 import mysql.connector
 import csv
 
-mydb = mysql.connector.connect(
-    host='mysql',
+my_db = mysql.connector.connect(
+    host='localhost',
     user='root',
     password='root',
     database='initiator'
 )
 
-mycursor = mydb.cursor()
-mycursor.execute('SELECT * FROM tasks;')
+my_cursor = my_db.cursor()
+my_cursor.execute("SELECT * FROM section_card_task WHERE status = 6;")
 
-rows = mycursor.fetchall()
+rows = my_cursor.fetchall()
 
 fp = open('/app/data/file.csv', 'w')
 myFile = csv.writer(fp)

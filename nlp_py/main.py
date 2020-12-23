@@ -6,7 +6,8 @@ from nlp_py import stat
 df = pd.read_csv('/app/data/tasks-from-mover.csv')
 titles = df['name'].str.lower()
 
-def get_similarity_date(text, user_id = '2be0ccf2-3608-11ea-9dc1-0242c0a85009'):
+
+def get_similarity_date(text, user_id='2be0ccf2-3608-11ea-9dc1-0242c0a85009'):
     nlp_words = get_similarity(text, True)
     tasks = []
     tmp = []
@@ -51,17 +52,19 @@ def get_similarity_date(text, user_id = '2be0ccf2-3608-11ea-9dc1-0242c0a85009'):
     # Среднеквадратичесвое оклонение случайной величины для задачи
     gx = int(math.sqrt(dx))
 
-    return { 'mx': display_time(mx), 'dx': display_time(dx), 'gx': display_time(gx) }
+    return {'mx': display_time(mx), 'dx': display_time(dx), 'gx': display_time(gx)}
     # return { 'mx': mx, 'dx': dx, 'gx': gx }
 
-#Function for convert seconds to days, hours and minutes
+
+# Function for convert seconds to days, hours and minutes
 intervals = (
     ('н', 604800),  # 60 * 60 * 24 * 7
-    ('д', 86400),    # 60 * 60 * 24
-    ('ч', 3600),    # 60 * 60
+    ('д', 86400),  # 60 * 60 * 24
+    ('ч', 3600),  # 60 * 60
     ('м', 60),
     ('с', 1),
-    )
+)
+
 
 def display_time(seconds, granularity=2):
     result = []
@@ -71,4 +74,5 @@ def display_time(seconds, granularity=2):
         if value:
             seconds -= value * count
             result.append("{} {}".format(value, name))
+
     return ', '.join(result[:granularity])

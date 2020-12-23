@@ -1,5 +1,6 @@
 def pv_normalize_tasks(tasks, total):
-    return [ [times, rating / total] for rating, times in tasks ]
+    return [[times, rating / total] for rating, times in tasks]
+
 
 def math_expectation_x(data):
     mx = 0
@@ -9,7 +10,8 @@ def math_expectation_x(data):
 
     return mx
 
-def variance_x(data, mx = 0):
+
+def variance_x(data, mx=0):
     dx = 0
 
     if not mx:
