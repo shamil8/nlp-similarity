@@ -6,10 +6,9 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-    image: intr_py
-    container_name: intr_py
+    container_name: intr_dev_py
     ports:
-      - 5000:5000
+      - 5001:5000
     volumes:
       - ./nlp_py/:/app/nlp_py
       - ./rating/:/app/rating

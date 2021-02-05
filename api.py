@@ -22,7 +22,8 @@ def nlp_words():
         append = args.get('is-append')
         is_append = False
 
-        if append and append in ['true', '1', 't', 'y', 'yes']: is_append = True
+        if append and append in ['true', '1', 't', 'y', 'yes']:
+            is_append = True
 
         response = jsonify(get_similarity(args.get('text'), is_append))
         response.headers.add('Access-Control-Allow-Origin', '*')
@@ -36,7 +37,7 @@ def nlp_words():
 def nlp_date_computing():
     args = request.args
 
-    return jsonify(get_similarity_date(args.get('text'))) if args and args.get('text') \
+    return jsonify(get_similarity_date(args.get('text'), args.get('owner_id'))) if args and args.get('text') \
         else (text_param_error, param_error_code)
 
 

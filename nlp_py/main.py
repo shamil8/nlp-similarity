@@ -1,5 +1,6 @@
-import math
+# import math
 import pandas as pd
+import nlp_py.constants as constants
 from nlp_py.similarity import get_similarity
 from nlp_py import stat
 
@@ -7,7 +8,7 @@ df = pd.read_csv('/app/data/tasks-from-mover.csv')
 titles = df['name'].str.lower()
 
 
-def get_similarity_date(text, user_id='2be0ccf2-3608-11ea-9dc1-0242c0a85009'):
+def get_similarity_date(text, user_id=None):
     nlp_words = get_similarity(text, True)
     tasks = []
     tmp = []
@@ -19,7 +20,7 @@ def get_similarity_date(text, user_id='2be0ccf2-3608-11ea-9dc1-0242c0a85009'):
                 if idx in tmp:
                     for task_idx, [index, _] in enumerate(tasks):
                         if index == idx:
-                            tasks[task_idx][1] += 1  # [task_idx][1] - it's a rating!
+                            tasks[task_idx][1] += constants.RATING_WORD_SIMILARITY  # [task_idx][1] - it's a rating!
                 else:
                     tmp.append(idx)
                     tasks.append([idx, 1])
@@ -32,8 +33,9 @@ def get_similarity_date(text, user_id='2be0ccf2-3608-11ea-9dc1-0242c0a85009'):
     for idx, rating in tasks:
         owner_id, times = df.loc[idx, ['owner_id', 'times']]
         # space for adding params
-        if owner_id == user_id:
-            rating += 2
+
+        if user_id and owner_id == user_id:
+            rating += constants.RATING_OWNER
 
         # END space for adding params
 
@@ -47,13 +49,13 @@ def get_similarity_date(text, user_id='2be0ccf2-3608-11ea-9dc1-0242c0a85009'):
     mx = int(stat.math_expectation_x(data))
 
     # Дисперсия случайной величины
-    dx = int(stat.variance_x(data, mx))
+    # dx = int(stat.variance_x(data, mx))
 
     # Среднеквадратичесвое оклонение случайной величины для задачи
-    gx = int(math.sqrt(dx))
+    # gx = int(math.sqrt(dx))
 
-    return {'mx': display_time(mx), 'dx': display_time(dx), 'gx': display_time(gx)}
-    # return { 'mx': mx, 'dx': dx, 'gx': gx }
+    # return {'mx': display_time(mx), 'dx': display_time(dx), 'gx': display_time(gx)}
+    return {'mx': display_time(mx)}
 
 
 # Function for convert seconds to days, hours and minutes

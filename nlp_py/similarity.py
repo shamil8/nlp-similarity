@@ -1,5 +1,6 @@
 from gensim.models import KeyedVectors
 import nltk
+import re
 
 # only once!
 # Model with tags
@@ -18,17 +19,18 @@ var = nltk.tagset_mapping('ru-rnc', 'universal') == {
     'YES_NO_SENT': 'X', 'PTCL': 'PRT'
 }
 
+
 # END only once!
 
-def get_similarity (text, is_append = False):
-    words = nltk.word_tokenize(str(text).lower())
+def get_similarity(text, is_append=False):
+    norm_text = str(re.sub(r'[^\w]|[^\D]', ' ', text).lower()).strip()
+    words = nltk.word_tokenize(norm_text)
 
     words_with_tag = []
 
     for word in words:
         word_with_tag = nltk.pos_tag([word], tagset='universal', lang='rus')[0]
         words_with_tag.append(word_with_tag[0] + '_' + word_with_tag[1])
-
 
     result = get_most_similar(words_with_tag)
 
@@ -47,11 +49,10 @@ def get_similarity (text, is_append = False):
             except ValueError:
                 print('if the value is not present')
 
-
     return result
 
 
-def get_most_similar(text, pv = 0.5):
+def get_most_similar(text, pv=0.5):
     words = []
 
     try:
