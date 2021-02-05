@@ -1,11 +1,11 @@
 /venv
-/data
+data/*
+!/data/tasks-from-mover.csv
 /__pycache__
 /.ipynb_checkpoints
 /jupyter/__pycache__
 /nlp_py/__pycache__
 /rating/__pycache__/
 /jupyter/.ipynb_checkpoints
-
-
+/initiator_models/rnc_and_wiki.wordvectors.vectors.npy
 /initiator_models/initiator_word2vec.model
