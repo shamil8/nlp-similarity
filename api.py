@@ -1,8 +1,10 @@
 from flask import Flask, request, jsonify
+from flask_cors import CORS
 from nlp_py.similarity import get_similarity
 from nlp_py.main import get_similarity_date
 
 app = Flask(__name__)
+cors = CORS(app)
 
 text_param_error = 'Bad request! (you need to add `text` param)'
 param_error_code = 400
@@ -34,10 +36,7 @@ def nlp_words():
 def nlp_date_computing():
     args = request.args
 
-    response = jsonify(get_similarity_date(args.get('text')))
-    response.headers.add('Access-Control-Allow-Origin', '*')
-
-    return response if args and args.get('text') \
+    return jsonify(get_similarity_date(args.get('text'))) if args and args.get('text') \
         else (text_param_error, param_error_code)
 
 
