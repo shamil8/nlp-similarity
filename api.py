@@ -1,10 +1,12 @@
 from flask import Flask, request, jsonify
 from nlp_py.similarity import get_similarity
 from nlp_py.main import get_similarity_date
+
 app = Flask(__name__)
 
 text_param_error = 'Bad request! (you need to add `text` param)'
 param_error_code = 400
+
 
 @app.route('/')
 def index():
@@ -20,16 +22,24 @@ def nlp_words():
 
         if append and append in ['true', '1', 't', 'y', 'yes']: is_append = True
 
-        return jsonify(get_similarity(args.get('text'), is_append))
+        response = jsonify(get_similarity(args.get('text'), is_append))
+        response.headers.add('Access-Control-Allow-Origin', '*')
+
+        return response
 
     return text_param_error, param_error_code
+
 
 @app.route('/nlp-computing')
 def nlp_date_computing():
     args = request.args
 
-    return jsonify(get_similarity_date(args.get('text'))) if args and args.get('text') \
+    response = jsonify(get_similarity_date(args.get('text')))
+    response.headers.add('Access-Control-Allow-Origin', '*')
+
+    return response if args and args.get('text') \
         else (text_param_error, param_error_code)
+
 
 if __name__ == '__main__':
     app.run(debug=True, host='0.0.0.0')
