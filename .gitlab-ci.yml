@@ -1,1 +1,20 @@
+stages:
+  - build
 
+before_script:
+  - echo $CI_PAT_TOKEN | docker login -u $CI_PAT_USER --password-stdin $CI_REGISTRY
+
+########################
+###    PRODUCTION    ###
+########################
+
+# Build Service for production
+build_master:
+  stage: build
+  script:
+    - docker build -t registry.gitlab.com/sibtechproject/inc3/deploy/nlp-similarity:master .
+    - docker push registry.gitlab.com/sibtechproject/inc3/deploy/nlp-similarity:master
+  only:
+    - master
+  tags:
+    - initiator
