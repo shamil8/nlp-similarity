@@ -3,6 +3,7 @@ import pandas as pd
 import nlp_py.constants as constants
 from nlp_py.similarity import get_similarity
 from nlp_py import stat
+from re import sub
 
 df = pd.read_csv('/app/data/tasks-from-mover.csv')
 titles = df['name'].str.lower()
@@ -15,15 +16,16 @@ def get_similarity_date(text, user_id=None):
 
     # try to find from nlp_words and add ratings for words
     for idx, words in enumerate(titles):
-        for word in str(words).split():
-            if word in nlp_words:
-                if idx in tmp:
-                    for task_idx, [index, _] in enumerate(tasks):
-                        if index == idx:
-                            tasks[task_idx][1] += constants.RATING_WORD_SIMILARITY  # [task_idx][1] - it's a rating!
-                else:
-                    tmp.append(idx)
-                    tasks.append([idx, 1])
+        norm_text = str(sub(r'[^\w]', ' ', sub(r'\s+', ' ', str(words)).lower())).strip()  # TODO:: DO IT IN MYSQL!!!
+
+        if constants.MIN_COUNT_WORDS == [nlp_word in norm_text for nlp_word in nlp_words].count(True):
+            if idx in tmp:
+                for task_idx, [index, _] in enumerate(tasks):
+                    if index == idx:
+                        tasks[task_idx][1] += constants.RATING_WORD_SIMILARITY  # [task_idx][1] - it's a rating!
+            else:
+                tmp.append(idx)
+                tasks.append([idx, 1])
 
     data = []
 
@@ -75,6 +77,6 @@ def display_time(seconds, granularity=2):
         value = seconds // count
         if value:
             seconds -= value * count
-            result.append("{} {}".format(value, name))
+            result.append("{}{}".format(value, name))
 
-    return ', '.join(result[:granularity])
+    return ' '.join(result[:granularity])

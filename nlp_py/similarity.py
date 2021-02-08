@@ -1,6 +1,7 @@
 from gensim.models import KeyedVectors
 import nltk
 import re
+from nlp_py.constants import PV_WORD_SIMILARITY
 
 # only once!
 # Model with tags
@@ -23,7 +24,7 @@ var = nltk.tagset_mapping('ru-rnc', 'universal') == {
 # END only once!
 
 def get_similarity(text, is_append=False):
-    norm_text = str(re.sub(r'[^\w]|[^\D]', ' ', text).lower()).strip()
+    norm_text = str(re.sub(r'[^\w]|[^\D]', ' ', text).lower()).strip()        # TODO:: MAYBE CHANGE IT after MYSQL!!!
     words = nltk.word_tokenize(norm_text)
 
     words_with_tag = []
@@ -52,7 +53,7 @@ def get_similarity(text, is_append=False):
     return result
 
 
-def get_most_similar(text, pv=0.5):
+def get_most_similar(text, pv=PV_WORD_SIMILARITY):
     words = []
 
     try:
