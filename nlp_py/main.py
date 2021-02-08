@@ -10,15 +10,19 @@ titles = df['name'].str.lower()
 
 
 def get_similarity_date(text, user_id=None):
+    text = str(sub(r'[^\w]|[^\D]', ' ', text).lower()).strip()  # TODO:: MAYBE CHANGE IT after MYSQL!!!
     nlp_words = get_similarity(text, True)
+
     tasks = []
     tmp = []
 
     # try to find from nlp_words and add ratings for words
     for idx, words in enumerate(titles):
         norm_text = str(sub(r'[^\w]', ' ', sub(r'\s+', ' ', str(words)).lower())).strip()  # TODO:: DO IT IN MYSQL!!!
+        countSimilarity = [nlp_word in norm_text for nlp_word in nlp_words].count(True)
 
-        if constants.MIN_COUNT_WORDS == [nlp_word in norm_text for nlp_word in nlp_words].count(True):
+        # Если в задачи меньше слов чем в MIN_COUNT_WORDS, то данная переменная уменьшается на 1.
+        if constants.MIN_COUNT_WORDS == countSimilarity or len(text.split()) < constants.MIN_COUNT_WORDS and constants.MIN_COUNT_WORDS - 1 == countSimilarity:
             if idx in tmp:
                 for task_idx, [index, _] in enumerate(tasks):
                     if index == idx:
