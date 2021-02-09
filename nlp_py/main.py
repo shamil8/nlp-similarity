@@ -14,7 +14,7 @@ def get_similarity_date(text, user_id=None):
     text_nlp = str(sub(r'[^\w]|[^\D]', ' ', text).lower()).strip()  # TODO:: MAYBE CHANGE IT after MYSQL!!!
     nlp_words = get_similarity(text_nlp, True)
 
-    for numSym in str(sub(r'[^\d]+', ' ', text)).strip().split():   # adding number symbols
+    for numSym in str(sub(r'[^\d]+', ' ', text)).strip().split():  # adding number symbols
         nlp_words.append(numSym)
 
     tasks = []
@@ -29,26 +29,48 @@ def get_similarity_date(text, user_id=None):
             tasks.append([idx, countSimilarity * constants.RATING_WORD_SIMILARITY])
 
     sorted_tasks = sorted(tasks, key=lambda x: x[1])
-
+    tasks = sorted_tasks[-constants.SAMPLE_COUNT:]
     data = []
 
     # adding data
     total_ratings = 0
+    min_rating = tasks[0][0]
 
-    for idx, rating in sorted_tasks[-constants.SAMPLE_COUNT:]:
+    for idx, rating in tasks:
         owner_id, times = df.loc[idx, ['owner_id', 'times']]
-        # space for adding params
+
+        if not times:
+            continue
+        # space for adding some params
 
         if user_id and owner_id == user_id:
             rating += constants.RATING_OWNER
 
-        # END space for adding params
+        # END space for adding some params
+        if rating < min_rating:
+            min_rating = rating
 
         total_ratings += rating
-        data.append([rating, int(times)])
+        data.append([rating, int(times / 60)])  # TODO:: Convert times to minute in MySQL
+
+    sorted_data = sorted(data, key=lambda x: x[1])
+
+    # Удаляем из выборки данные разность которых больше чем constants.DELTA_DIFFERENT
+    i = 0
+    while i < len(sorted_data):
+        if sorted_data[len(sorted_data) - (i + 1)][1] - sorted_data[i][1] < constants.DELTA_DIFFERENT:
+            break
+
+        # removing useless data
+        if min_rating == sorted_data[i][0]:
+            del sorted_data[i]
+        if min_rating == sorted_data[len(sorted_data) - (i + 1)][0]:
+            del sorted_data[len(sorted_data) - (i + 1)]
+
+        i += 1
 
     # Нормализация данных для мат. ожидания
-    data = stat.pv_normalize_tasks(data, total_ratings)
+    data = stat.pv_normalize_tasks(sorted_data, total_ratings)
 
     # Математическое ожидание случайной величины
     mx = int(stat.math_expectation_x(data))
@@ -65,11 +87,10 @@ def get_similarity_date(text, user_id=None):
 
 # Function for convert seconds to days, hours and minutes
 intervals = (
-    ('н', 604800),  # 60 * 60 * 24 * 7
-    ('д', 86400),  # 60 * 60 * 24
-    ('ч', 3600),  # 60 * 60
-    ('м', 60),
-    ('с', 1),
+    ('н', 10080),  # 60 * 24 * 7
+    ('д', 1440),  # 60 * 24
+    ('ч', 60),  # 60
+    ('м', 1),
 )
 
 
