@@ -63,8 +63,10 @@ def get_similarity_date(text, user_id=None):
 
         # removing useless data
         if min_rating == sorted_data[i][0]:
+            total_ratings -= sorted_data[i][0]
             del sorted_data[i]
         if min_rating == sorted_data[len(sorted_data) - (i + 1)][0]:
+            total_ratings -= sorted_data[len(sorted_data) - (i + 1)][0]
             del sorted_data[len(sorted_data) - (i + 1)]
 
         i += 1
