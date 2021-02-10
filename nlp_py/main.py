@@ -26,7 +26,7 @@ def get_similarity_date(text, user_id=None):
 
         # Если в задачи меньше слов чем в MIN_COUNT_WORDS, то данная переменная уменьшается на 1.
         if constants.MIN_COUNT_WORDS <= countSimilarity or max_count_words < constants.MIN_COUNT_WORDS and constants.MIN_COUNT_WORDS - 1 <= countSimilarity:
-            tasks.append([idx, countSimilarity * constants.RATING_WORD_SIMILARITY])
+            tasks.append([idx, countSimilarity ** constants.RATING_WORD_SIMILARITY])
 
     sorted_tasks = sorted(tasks, key=lambda x: x[1])
     tasks = sorted_tasks[-constants.SAMPLE_COUNT:]
@@ -51,7 +51,7 @@ def get_similarity_date(text, user_id=None):
             min_rating = rating
 
         total_ratings += rating
-        data.append([rating, int(times / 60)])  # TODO:: Convert times to minute in MySQL
+        data.append([rating, int(times / 60), idx])  # TODO:: Convert times to minute in MySQL
 
     sorted_data = sorted(data, key=lambda x: x[1])
 
@@ -83,7 +83,21 @@ def get_similarity_date(text, user_id=None):
     # Среднеквадратичесвое оклонение случайной величины для задачи
     gx = int(math.sqrt(dx))
 
-    return {'mx': display_time(mx), 'dx': display_time(dx), 'gx': display_time(gx)}
+    return {
+        'mx': display_time(mx),
+        'dx': display_time(dx),
+        'gx': display_time(gx),
+        'min_data': {
+            'name': df.loc[sorted_data[-1][2], 'name'],
+            'rating': sorted_data[0][0],
+            'time': sorted_data[0][1],
+        },
+        'max_data': {
+            'name': df.loc[sorted_data[-1][2], 'name'],
+            'rating': sorted_data[-1][0],
+            'time': sorted_data[-1][1],
+        }
+    }
     # return {'mx': display_time(mx), 'tasks_count': len(tasks), 'data': data}
 
 

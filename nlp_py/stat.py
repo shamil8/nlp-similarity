@@ -1,5 +1,5 @@
 def pv_normalize_tasks(tasks, total):
-    return [[times, rating / total] for rating, times in tasks]
+    return [[times, rating / total] for rating, times, _ in tasks]
 
 
 def math_expectation_x(data):
