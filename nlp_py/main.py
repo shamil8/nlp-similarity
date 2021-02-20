@@ -33,6 +33,8 @@ def get_similarity_date(text, user_id=None):
     data = []
 
     # adding data
+    most_similarity = {'rating': 0}
+
     total_ratings = 0
     min_rating = tasks[0][0]
 
@@ -50,6 +52,13 @@ def get_similarity_date(text, user_id=None):
         if rating < min_rating:
             min_rating = rating
 
+        if most_similarity['rating'] < rating:
+            most_similarity = {
+                'rating': rating,
+                'time': int(times / 60),
+                'idx': idx
+            }
+
         total_ratings += rating
         data.append([rating, int(times / 60), idx])  # TODO:: Convert times to minute in MySQL
 
@@ -57,7 +66,7 @@ def get_similarity_date(text, user_id=None):
 
     # Удаляем из выборки данные разность которых больше чем constants.DELTA_DIFFERENT
     i = 0
-    while i < len(sorted_data):
+    while i < len(sorted_data):     # TODO:: Check it!!!
         if sorted_data[len(sorted_data) - (i + 1)][1] - sorted_data[i][1] < constants.DELTA_DIFFERENT:
             break
 
@@ -83,20 +92,28 @@ def get_similarity_date(text, user_id=None):
     # Среднеквадратичесвое оклонение случайной величины для задачи
     gx = int(math.sqrt(dx))
 
+    # Наиболее схожая
+    most_similarity['name'] = df.loc[most_similarity['idx'], 'name']
+    most_similarity['rating'] = most_similarity['rating'] * 100 / total_ratings
+    del most_similarity['idx']
+
     return {
-        'mx': display_time(mx),
+        'time_forecast': display_time(mx),
         'dx': display_time(dx),
         'gx': display_time(gx),
-        'min_data': {
+        'sample_count': len(sorted_data),
+        'most_similarity': most_similarity,
+        'max_sample': {
             'name': df.loc[sorted_data[-1][2], 'name'],
-            'rating': sorted_data[0][0],
+            'rating': sorted_data[-1][0] * 100 / total_ratings,
+            'time': sorted_data[-1][1]
+        },
+        'min_sample': {
+            'name': df.loc[sorted_data[0][2], 'name'],
+            'rating': sorted_data[0][0] * 100 / total_ratings,
             'time': sorted_data[0][1],
         },
-        'max_data': {
-            'name': df.loc[sorted_data[-1][2], 'name'],
-            'rating': sorted_data[-1][0],
-            'time': sorted_data[-1][1],
-        }
+        'nlp_words': nlp_words
     }
     # return {'mx': display_time(mx), 'tasks_count': len(tasks), 'data': data}
 
