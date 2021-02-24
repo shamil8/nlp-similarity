@@ -5,7 +5,7 @@ from nlp_py.similarity import get_similarity
 from nlp_py import stat
 from re import sub
 
-df = pd.read_csv('/app/data/tasks-from-mover.csv')
+df = pd.read_csv('/app/data/tasks.csv')
 titles = df['name'].str.lower()
 
 
@@ -36,6 +36,9 @@ def get_similarity_date(text, user_id=None):
     most_similarity = {'rating': 0}
 
     total_ratings = 0
+    if not len(tasks):
+        return {}
+
     min_rating = tasks[0][0]
 
     for idx, rating in tasks:

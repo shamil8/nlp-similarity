@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="SqlDialectMappings">
+    <file url="file://$USER_HOME$/Documents/importantFiles/dump.14.10.20.sql" dialect="MySQL" />
     <file url="file://$PROJECT_DIR$/connector/query_to_csv.py" dialect="GenericSQL" />
   </component>
 </project>

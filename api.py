@@ -1,5 +1,6 @@
 from flask import Flask, request, jsonify
 from flask_cors import CORS
+from connector.query_to_csv import upgrade_tasks
 from nlp_py.similarity import get_similarity
 from nlp_py.main import get_similarity_date
 
@@ -13,6 +14,12 @@ param_error_code = 400
 @app.route('/')
 def index():
     return 'Welcome to Python :O)'
+
+
+@app.route('/update-tasks')
+def update_tasks():
+    upgrade_tasks()
+    return 'Updated tasks!'
 
 
 @app.route('/nlp-words')

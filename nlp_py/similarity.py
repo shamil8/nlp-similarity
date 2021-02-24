@@ -57,6 +57,8 @@ def get_most_similar(text, pv=PV_WORD_SIMILARITY):
 
     try:
         words = rnc_and_wiki_wv.most_similar(text)
+    except ValueError as e:
+        print('I got a ValueError - reason "%s"' % str(e))
     except KeyError as e:
         print('I got a KeyError - reason "%s"' % str(e))
     except IndexError as e:

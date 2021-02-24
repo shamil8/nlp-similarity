@@ -1,19 +1,35 @@
 import mysql.connector
 import csv
+import os
+from pathlib import Path
 
-my_db = mysql.connector.connect(
-    host='localhost',
-    user='root',
-    password='root',
-    database='initiator'
-)
 
-my_cursor = my_db.cursor()
-my_cursor.execute("SELECT * FROM section_card_task WHERE status = 6;")
+def upgrade_tasks():
+    my_db = mysql.connector.connect(
+        host=os.environ['MYSQL_HOST'],
+        port=int(os.environ['MYSQL_PORT']),
+        user=os.environ['MYSQL_USER'],
+        password=os.environ['MYSQL_PASS'],
+        database=os.environ['MYSQL_DB']
+    )
 
-rows = my_cursor.fetchall()
+    my_cursor = my_db.cursor()
+    my_cursor.execute(
+        "SELECT id, name, TIMESTAMPDIFF(MINUTE, start_at, end_at) times, owner_id FROM section_card_task WHERE status = 6 AND start_at < end_at;")
 
-fp = open('/app/data/file.csv', 'w')
-myFile = csv.writer(fp)
-myFile.writerows(rows)
-fp.close()
+    field_names = [i[0] for i in my_cursor.description]
+    rows = my_cursor.fetchall()
+    rows.insert(0, field_names)
+
+    if os.path.exists("/app/data/tasks.csv"):  # removing file
+        os.remove("/app/data/tasks.csv")
+
+    Path("/app/data").mkdir(parents=True, exist_ok=True)
+
+    fp = open('/app/data/tasks.csv', 'w')
+    myFile = csv.writer(fp)
+    myFile.writerows(rows)
+    fp.close()
+
+
+upgrade_tasks()

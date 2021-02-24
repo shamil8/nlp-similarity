@@ -23,3 +23,8 @@ docker-compose build py
 
 docker-compose up py
 ```
+
+#Update data
+For updating tasks: `python -c 'from connector.query_to_csv import upgrade_tasks; upgrade_tasks()'`
+
+You also can update the tasks.csv so: `http://localhost:5001/update-tasks`

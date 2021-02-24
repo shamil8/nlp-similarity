@@ -7,31 +7,24 @@ services:
       context: .
       dockerfile: Dockerfile
     container_name: intr_dev_py
+    links:
+      - db
     ports:
       - 5001:5000
+    environment:
+      MYSQL_HOST: db
+      MYSQL_DB: initiator
     volumes:
       - ./nlp_py/:/app/nlp_py
       - ./rating/:/app/rating
       - ./connector/:/app/connector
       - ./api.py:/app/api.py
 
-#  # MySQL container
-#  mysql:
-#    image: mysql
-#    container_name: intr_mysql
-#    command:
-#      - '--character-set-server=utf8mb4'
-#      - --default-authentication-plugin=mysql_native_password
-#    restart: always
-#    environment:
-#      MYSQL_ROOT_PASSWORD: root
-#    ports:
-#      - 3306:3306
-#
-#  # Adminer for MySQL and MongoDB
-#  adminer:
-#    image: adminer
-#    container_name: intr_adminer
-#    restart: always
-#    ports:
-#      - 8086:8080  # port for adminer 8086
+  # MySQL container
+  db:
+    image: mysql:5.7
+    container_name: intr_db
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+    ports:
+      - 3306:3306
