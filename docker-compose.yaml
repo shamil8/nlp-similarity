@@ -3,28 +3,28 @@ version: "3.8"
 services:
   # Python container
   py:
+    network_mode: "host"
     build:
       context: .
       dockerfile: Dockerfile
     container_name: intr_dev_py
-    links:
-      - db
     ports:
-      - 5001:5000
+      - 5001:5001
     environment:
-      MYSQL_HOST: db
+      MYSQL_HOST: 127.0.0.1
       MYSQL_DB: initiator
     volumes:
+      - ./constants/:/app/constants
       - ./nlp_py/:/app/nlp_py
       - ./rating/:/app/rating
       - ./connector/:/app/connector
       - ./api.py:/app/api.py
 
   # MySQL container
-  db:
-    image: mysql:5.7
-    container_name: intr_db
-    environment:
-      MYSQL_ROOT_PASSWORD: root
-    ports:
-      - 3306:3306
+#  db:
+#    image: mysql:5.7
+#    container_name: intr_db
+#    environment:
+#      MYSQL_ROOT_PASSWORD: root
+#    ports:
+#      - 3306:3306

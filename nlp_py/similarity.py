@@ -1,6 +1,6 @@
 from gensim.models import KeyedVectors
 import nltk
-import re
+import sys
 from nlp_py.constants import PV_WORD_SIMILARITY
 
 # only once!
@@ -47,7 +47,7 @@ def get_similarity(text, is_append=False):
             try:
                 result.remove(word)
             except ValueError:
-                print('if the value is not present')
+                print('if the value is not present', file=sys.stderr)
 
     return result
 
@@ -58,11 +58,11 @@ def get_most_similar(text, pv=PV_WORD_SIMILARITY):
     try:
         words = rnc_and_wiki_wv.most_similar(text)
     except ValueError as e:
-        print('I got a ValueError - reason "%s"' % str(e))
+        print('I got a ValueError - reason "%s"' % str(e), file=sys.stderr)
     except KeyError as e:
-        print('I got a KeyError - reason "%s"' % str(e))
+        print('I got a KeyError - reason "%s"' % str(e), file=sys.stderr)
     except IndexError as e:
-        print('I got an IndexError - reason "%s"' % str(e))
+        print('I got an IndexError - reason "%s"' % str(e), file=sys.stderr)
 
     # return unique words
     result = []

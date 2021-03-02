@@ -11,7 +11,7 @@ titles = df['name'].str.lower()
 
 def get_similarity_date(text, user_id=None):
     max_count_words = len(text.split())
-    text_nlp = str(sub(r'[^\w]|[^\D]', ' ', text).lower()).strip()  # TODO:: MAYBE CHANGE IT after MYSQL!!!
+    text_nlp = str(sub(r'[^\w]|[^\D]', ' ', text).lower()).strip()
     nlp_words = get_similarity(text_nlp, True)
 
     for numSym in str(sub(r'[^\d]+', ' ', text)).strip().split():  # adding number symbols
@@ -21,7 +21,7 @@ def get_similarity_date(text, user_id=None):
 
     # try to find from nlp_words and add ratings for words
     for idx, words in enumerate(titles):
-        norm_text = str(sub(r'[^\w]', ' ', sub(r'\s+', ' ', str(words)).lower())).strip()  # TODO:: DO IT IN MYSQL!!!
+        norm_text = str(sub(r'[^\w]', ' ', sub(r'\s+', ' ', str(words)).lower())).strip()
         countSimilarity = [nlp_word in norm_text for nlp_word in nlp_words].count(True)
 
         # Если в задачи меньше слов чем в MIN_COUNT_WORDS, то данная переменная уменьшается на 1.
@@ -58,12 +58,12 @@ def get_similarity_date(text, user_id=None):
         if most_similarity['rating'] < rating:
             most_similarity = {
                 'rating': rating,
-                'time': int(times / 60),
+                'time': int(times),
                 'idx': idx
             }
 
         total_ratings += rating
-        data.append([rating, int(times / 60), idx])  # TODO:: Convert times to minute in MySQL
+        data.append([rating, int(times), idx])
 
     sorted_data = sorted(data, key=lambda x: x[1])
 
