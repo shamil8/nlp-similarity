@@ -49,4 +49,5 @@ def nlp_date_computing():
 
 
 if __name__ == '__main__':
-    app.run(debug=True, host='0.0.0.0', port=5001)
+    app.run(debug=True, host='0.0.0.0', port=5000)
+# if you work with this docker-compose file you need to set port=5001 !!!

@@ -8,6 +8,8 @@ services:
       context: .
       dockerfile: Dockerfile
     container_name: intr_dev_py
+#    links:
+#      - db
     ports:
       - 5001:5001
     environment:

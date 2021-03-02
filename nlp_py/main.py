@@ -1,9 +1,10 @@
 import math
 import pandas as pd
+import constants.duration as du
 import nlp_py.constants as constants
-from nlp_py.similarity import get_similarity
-from nlp_py import stat
 from re import sub
+from nlp_py import stat
+from nlp_py.similarity import get_similarity
 
 df = pd.read_csv('/app/data/tasks.csv')
 titles = df['name'].str.lower()
@@ -58,7 +59,7 @@ def get_similarity_date(text, user_id=None):
         if most_similarity['rating'] < rating:
             most_similarity = {
                 'rating': rating,
-                'time': int(times),
+                'time': display_time(int(times)),
                 'idx': idx
             }
 
@@ -109,12 +110,12 @@ def get_similarity_date(text, user_id=None):
         'max_sample': {
             'name': df.loc[sorted_data[-1][2], 'name'],
             'rating': sorted_data[-1][0] * 100 / total_ratings,
-            'time': sorted_data[-1][1]
+            'time': display_time(sorted_data[-1][1])
         },
         'min_sample': {
             'name': df.loc[sorted_data[0][2], 'name'],
             'rating': sorted_data[0][0] * 100 / total_ratings,
-            'time': sorted_data[0][1],
+            'time': display_time(sorted_data[0][1])
         },
         'nlp_words': nlp_words
     }
@@ -123,10 +124,10 @@ def get_similarity_date(text, user_id=None):
 
 # Function for convert seconds to days, hours and minutes
 intervals = (
-    ('н', 10080),  # 60 * 24 * 7
-    ('д', 1440),  # 60 * 24
-    ('ч', 60),  # 60
-    ('м', 1),
+    (du.SIGN_WEEK, du.HOUR_TO_MINUTES * du.DAY_WORK_HOURS * du.WEEK_WORK_DAYS),  # 60 * 8 * 5
+    (du.SIGN_DAY, du.HOUR_TO_MINUTES * du.DAY_WORK_HOURS),  # 60 * 8
+    (du.SIGN_HOUR, du.HOUR_TO_MINUTES),  # 60
+    (du.SIGN_MINUTE, 1),
 )
 
 

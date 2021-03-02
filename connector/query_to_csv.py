@@ -63,7 +63,7 @@ def upgrade_tasks():
             rowList[2] = minutes
             rows[idx] = tuple(rowList)
 
-            print(duration_arr, minutes, ' duration to minutes', file=sys.stderr)
+            # print(duration_arr, minutes, ' duration to minutes', file=sys.stderr)
 
     rows.insert(0, field_names)
 
