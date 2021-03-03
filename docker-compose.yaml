@@ -17,7 +17,7 @@ services:
       MYSQL_DB: initiator
     volumes:
       - ./constants/:/app/constants
-      - ./nlp_py/:/app/nlp_py
+      - ./core/:/app/core
       - ./connector/:/app/connector
       - ./api.py:/app/api.py
 

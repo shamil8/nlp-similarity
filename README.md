@@ -1,12 +1,11 @@
 # NLP text similarity with Word2Vec and Gensim
 
 
-# Data for this NLP
+# Other NLP wordvectors models
 
-Reddit world news dataset: https://www.kaggle.com/rootuser/worldnews-on-reddit/tasks
+RNC and Wiki models: https://disk.yandex.ru/d/yTSQk55lThf4og
 
-Pretrain Word2vec model by Google
-https://drive.google.com/file/d/0B7XkCwpI5KDYNlNUTTlSS21pQmM/edit
+Main NLP data website http://vectors.nlpl.eu/repository/
 
 # Docker and docker-compose
 ```docker
@@ -25,6 +24,8 @@ docker-compose up py
 ```
 
 #Upgrade data
+
+
 For updating tasks: `python -c 'from connector.tasks_to_csv import upgrade_tasks; upgrade_tasks()'`
 
 You also can update the `tasks.csv` file so: `http://localhost:5001/upgrade-tasks`

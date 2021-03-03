@@ -2,11 +2,13 @@
 /.gitignore
 /.idea
 /.dockerignore
+/.gitlab-ci.yml
+/venv
 /docker-compose.yaml
 /Dockerfile
 /README.md
 /jupyter
 /rating
-
-/initiator_models/initiator_word2vec.model
-/initiator_models/initiator_word2vec.wordvectors
+/core/__pycache__
+connector/__pycache__/
+constants/__pycache__/

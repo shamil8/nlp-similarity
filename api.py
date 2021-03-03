@@ -1,8 +1,8 @@
 from flask import Flask, request, jsonify
 from flask_cors import CORS
 from connector.tasks_to_csv import upgrade_tasks
-from nlp_py.similarity import get_similarity
-from nlp_py.main import get_similarity_date
+from core.similarity import get_similarity
+from core.main import get_similarity_date
 
 app = Flask(__name__)
 cors = CORS(app)
@@ -17,7 +17,7 @@ def index():
 
 
 @app.route('/upgrade-tasks')
-def upgrade_tasks():
+def update_tasks():
     upgrade_tasks()
     return 'Created a new tasks.csv file!'
 
@@ -49,5 +49,5 @@ def nlp_date_computing():
 
 
 if __name__ == '__main__':
-    app.run(debug=True, host='0.0.0.0', port=5000)
+    app.run(debug=True, host='0.0.0.0', port=5001)
 # if you work with this docker-compose file you need to set port=5001 !!!
