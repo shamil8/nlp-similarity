@@ -17,9 +17,9 @@ def index():
 
 
 @app.route('/upgrade-tasks')
-def update_tasks():
+def upgrade_tasks():
     upgrade_tasks()
-    return 'Updated tasks!'
+    return 'Created a new tasks.csv file!'
 
 
 @app.route('/nlp-words')
