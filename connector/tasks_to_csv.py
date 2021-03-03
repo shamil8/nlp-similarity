@@ -3,7 +3,7 @@ import sys
 import csv
 import os
 from pathlib import Path
-from nlp_py.constants import TASK_VERIFIED
+from constants.model import TASK_VERIFIED
 import constants.duration as du
 
 

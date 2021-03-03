@@ -1,7 +1,7 @@
 import math
 import pandas as pd
 import constants.duration as du
-import nlp_py.constants as constants
+import constants.model as const
 from re import sub
 from nlp_py import stat
 from nlp_py.similarity import get_similarity
@@ -26,11 +26,11 @@ def get_similarity_date(text, user_id=None):
         countSimilarity = [nlp_word in norm_text for nlp_word in nlp_words].count(True)
 
         # Если в задачи меньше слов чем в MIN_COUNT_WORDS, то данная переменная уменьшается на 1.
-        if constants.MIN_COUNT_WORDS <= countSimilarity or max_count_words < constants.MIN_COUNT_WORDS and constants.MIN_COUNT_WORDS - 1 <= countSimilarity:
-            tasks.append([idx, countSimilarity ** constants.RATING_WORD_SIMILARITY])
+        if const.MIN_COUNT_WORDS <= countSimilarity or max_count_words < const.MIN_COUNT_WORDS and const.MIN_COUNT_WORDS - 1 <= countSimilarity:
+            tasks.append([idx, countSimilarity ** const.RATING_WORD_SIMILARITY])
 
     sorted_tasks = sorted(tasks, key=lambda x: x[1])
-    tasks = sorted_tasks[-constants.SAMPLE_COUNT:]
+    tasks = sorted_tasks[-const.SAMPLE_COUNT:]
     data = []
 
     # adding data
@@ -50,7 +50,7 @@ def get_similarity_date(text, user_id=None):
         # space for adding some params
 
         if user_id and owner_id == user_id:
-            rating += constants.RATING_OWNER
+            rating += const.RATING_OWNER
 
         # END space for adding some params
         if rating < min_rating:
@@ -68,10 +68,10 @@ def get_similarity_date(text, user_id=None):
 
     sorted_data = sorted(data, key=lambda x: x[1])
 
-    # Удаляем из выборки данные разность которых больше чем constants.DELTA_DIFFERENT
+    # Удаляем из выборки данные разность которых больше чем const.DELTA_DIFFERENT
     i = 0
     while i < len(sorted_data):     # TODO:: Check it!!!
-        if sorted_data[len(sorted_data) - (i + 1)][1] - sorted_data[i][1] < constants.DELTA_DIFFERENT:
+        if sorted_data[len(sorted_data) - (i + 1)][1] - sorted_data[i][1] < const.DELTA_DIFFERENT:
             break
 
         # removing useless data

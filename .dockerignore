@@ -6,6 +6,7 @@
 /Dockerfile
 /README.md
 /jupyter
+/rating
 
 /initiator_models/initiator_word2vec.model
 /initiator_models/initiator_word2vec.wordvectors

@@ -1,7 +1,7 @@
 from gensim.models import KeyedVectors
 import nltk
 import sys
-from nlp_py.constants import PV_WORD_SIMILARITY
+from constants.model import PV_WORD_SIMILARITY
 
 # only once!
 # Model with tags

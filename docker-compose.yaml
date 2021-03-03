@@ -18,7 +18,6 @@ services:
     volumes:
       - ./constants/:/app/constants
       - ./nlp_py/:/app/nlp_py
-      - ./rating/:/app/rating
       - ./connector/:/app/connector
       - ./api.py:/app/api.py
 
